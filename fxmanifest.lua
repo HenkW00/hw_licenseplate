@@ -1,9 +1,9 @@
 fx_version 'adamant'
 game 'gta5'
 
-author 'HenkW'
-description 'ESX Licenseplate with okokNotify'
-version '1.0.1'
+author 'Maxime'
+description 'AMRP KENTEKENPLAAT'
+version '1.0.2'
 
 client_scripts {
 	'client/main.lua'
@@ -17,11 +17,6 @@ server_scripts {
 
 shared_scripts {
 	'config.lua'
-}
-
-dependency {
-	'okokNotify',
-	'es_extended'
 }
 
 shared_script '@es_extended/imports.lua'
