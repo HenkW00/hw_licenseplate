@@ -1,9 +1,9 @@
 fx_version 'adamant'
 game 'gta5'
 
-author 'Maxime'
-description 'AMRP KENTEKENPLAAT'
-version '1.0.2'
+author 'HenkW'
+description 'ESX Vehicle license plate script using okokNotify'
+version '1.0.4'
 
 client_scripts {
 	'client/main.lua'
