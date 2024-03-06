@@ -1,49 +1,39 @@
--- ESX = exports["es_extended"]:getSharedObject()
+ESX = exports["es_extended"]:getSharedObject()
 
-ESX = nil
-
-TriggerEvent('esx:getSharedObject', function(obj)
-    ESX = obj
-end)
-
+-- Use License Plate Item
 RegisterNetEvent('hw_licenseplate:useLicensePlate')
 AddEventHandler('hw_licenseplate:useLicensePlate', function()
     local playerPed = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(playerPed, false)
 
-    if vehicle and vehicle ~= 0 then
+    if vehicle ~= 0 then
         DisplayOnscreenKeyboard(1, "FMMC_KEY_TIP8", "", "", "", "", "", 8)
-        while (UpdateOnscreenKeyboard() == 0) do
+        while UpdateOnscreenKeyboard() == 0 do
             DisableAllControlActions(0)
             Wait(0)
         end
-        if (GetOnscreenKeyboardResult()) then
-            local result = GetOnscreenKeyboardResult()
-            if result then
-                TriggerServerEvent('hw_licenseplate:ChangePlate', GetVehicleNumberPlateText(vehicle), result)
-            end
+        local result = GetOnscreenKeyboardResult()
+        if result then
+            TriggerServerEvent('hw_licenseplate:ChangePlate', GetVehicleNumberPlateText(vehicle), result)
         end
     else
         exports['okokNotify']:Alert("SYSTEM", "You are not in a vehicle.", 5000, 'error')
     end
 end)
 
+-- Custom Command for Testing (if needed)
 RegisterCommand("kenteken", function(source, args, rawCommand)
-    if Config.Debug then
-        print("Config.Test is currently:", Config.Test) -- Debug print to check the value of Config.Test
-    end
     if Config.Test then
         local playerPed = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(playerPed, false)
 
-        if DoesEntityExist(vehicle) then
+        if vehicle ~= 0 then
             local oldPlate = GetVehicleNumberPlateText(vehicle)
             if #args > 0 then
                 local newPlate = table.concat(args, " ")
-                local playerIdentifier = GetPlayerServerId(PlayerId())
-                TriggerServerEvent("hw_licenseplate:ChangePlate", oldPlate, newPlate, playerIdentifier)
+                TriggerServerEvent("hw_licenseplate:ChangePlate", oldPlate, newPlate)
             else
-                exports['okokNotify']:Alert("SYSTEM", "Usage: /changeplate [NEW_PLATE]", 5000, 'error')
+                exports['okokNotify']:Alert("SYSTEM", "Usage: /kenteken [NEW_PLATE]", 5000, 'error')
             end
         else
             exports['okokNotify']:Alert("SYSTEM", "You are not in a vehicle.", 5000, 'error')
@@ -53,6 +43,7 @@ RegisterCommand("kenteken", function(source, args, rawCommand)
     end
 end, false)
 
+-- Handle License Plate Change Result
 RegisterNetEvent("hw_licenseplate:Result")
 AddEventHandler("hw_licenseplate:Result", function(ownsVehicle)
     if ownsVehicle then
@@ -62,12 +53,13 @@ AddEventHandler("hw_licenseplate:Result", function(ownsVehicle)
     end
 end)
 
+-- Update Vehicle License Plate Visually
 RegisterNetEvent('hw_licenseplate:UpdatePlateClient')
 AddEventHandler('hw_licenseplate:UpdatePlateClient', function(newPlate)
     local playerPed = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(playerPed, false)
     
-    if vehicle and vehicle ~= 0 then
+    if vehicle ~= 0 then
         SetVehicleNumberPlateText(vehicle, newPlate)
         exports['okokNotify']:Alert("Vehicle", "Plate updated to: " .. newPlate, 5000, 'success')
     else

@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'Maxime'
 description 'AMRP KENTEKENPLAAT'
-version '1.0.2'
+version '1.0.3'
 
 client_scripts {
 	'client/main.lua'
