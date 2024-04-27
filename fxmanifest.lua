@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'HenkW'
 description 'ESX Vehicle license plate script using okokNotify'
-version '1.0.7'
+version '1.0.8'
 
 client_scripts {
 	'client/main.lua'

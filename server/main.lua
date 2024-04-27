@@ -60,6 +60,12 @@ AddEventHandler("hw_licenseplate:ChangePlate", function(oldPlate, newPlate)
     oldPlate = trim(oldPlate):upper()
     newPlate = trim(newPlate):upper()
 
+    local hasLicensePlate = xPlayer.hasItem('license_plate', 1)
+    if not hasLicensePlate then
+        TriggerClientEvent('okokNotify:Alert', playerId, "SYSTEM", "You don't have a license plate to change.", 5000, 'error')
+        return
+    end
+
     if #newPlate > 8 or isPlateBlacklisted(newPlate, Config.BlacklistedWords) then
         TriggerClientEvent('okokNotify:Alert', playerId, "SYSTEM", "Invalid or blacklisted new plate.", 5000, 'error')
         return
